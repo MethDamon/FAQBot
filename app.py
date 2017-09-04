@@ -102,8 +102,8 @@ def connect():
                 myself_id = user['id']
         while True:
             messages = sc.rtm_read()
-        for message in messages:
-            pprint(message)
+            for message in messages:
+                pprint(message)
             if 'type' in message.keys and message['type'] == 'error' and message['error']['code']:
                 connect()
             elif 'type' in message.keys() and message['type'] == 'message':
