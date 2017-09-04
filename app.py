@@ -27,7 +27,7 @@ myself_id = ''
 
 
 def read_in_faq():
-    wb = xlrd.open_workbook("faq.xlsx")
+    wb = xlrd.open_workbook("./faq.xlsx")
     sh = wb.sheet_by_index(0)
     d = {}
     i = 1
