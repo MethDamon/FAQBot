@@ -96,7 +96,7 @@ def connect():
         users = sc.api_call("users.list")
         if 'members' in users.keys():
             for user in users['users']:
-                if user['name'] = 'mrjames':
+                if user['name'] == 'mrjames':
                     myself_id = user['id']
         while True:
             messages = sc.rtm_read()
