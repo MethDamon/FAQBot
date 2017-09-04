@@ -84,7 +84,7 @@ def get_answer(v1):
             highest_sim = sim
             highest_vect = question
 
-    if highest_sim < 0.1:
+    if highest_sim < 0.08:
         return ""
 
     index = questions.index(highest_vect)
@@ -131,6 +131,7 @@ def connect():
                                 answer = get_answer(vector)
                                 if answer == "":
                                     answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
+                                    sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                     file = open("/root/faqbot/questions_failed.txt", "a")
                                     file.write(question_without_mentioning + "\n\n")
                                     file.close()
