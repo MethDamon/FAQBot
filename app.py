@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import math
-import os
 import re
-import os.path
-import requests
-import logging
 
+import sys
 import xlrd as xlrd
 
 from slackclient import SlackClient
@@ -15,7 +12,7 @@ from nltk.corpus import stopwords
 from collections import Counter
 from pprint import pprint
 
-bot_token = os.environ['TOKEN']
+bot_token = sys.argv[1]
 
 sc = SlackClient(bot_token)
 
