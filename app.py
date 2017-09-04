@@ -81,7 +81,7 @@ def get_answer(v1):
             highest_sim = sim
             highest_vect = question
 
-    if highest_sim < 0.08:
+    if highest_sim < 0.2:
         return ""
 
     index = questions.index(highest_vect)
