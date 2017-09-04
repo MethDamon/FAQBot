@@ -104,52 +104,51 @@ def connect():
             messages = sc.rtm_read()
             for message in messages:
                 pprint(message)
-            if 'type' in message.keys() and message['type'] == 'error' and message['error']['code']:
-                connect()
-            elif 'type' in message.keys() and message['type'] == 'message':
-                lower_text = message['text'].lower()
-                question_without_mentioning = message['text'].replace('<@' + myself_id + '>', '').replace('<http://modum.io|modum.io>', 'modum.io')
-                text_cleaned = question_without_mentioning.replace(".io", "").replace("\'", "").lower()
-                if lower_text.startswith('<@' + myself_id.lower() + '>'):
-                    answer = ""
-                    if any(insult in text_cleaned for insult in insults):
-                        print("insult detected")
-                        answer = '<@' + message['user'] + "> Hey look, I know I'm not *that* bright, but I'm pretty sure that was an insult. Please be kind with me or I'll come for your circuit board!"
-                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                    else:
-                        if any(greeting in question_to_vector(text_cleaned).keys() for greeting in greetings) and not text_cleaned.endswith('?'):
-                            print("greeting detected")
-                            answer = '<@' + message['user'] + "> Hey! Feel free to ask me a question!"
+                if 'type' in message.keys() and message['type'] == 'error' and message['error']['code']:
+                    connect()
+                elif 'type' in message.keys() and message['type'] == 'message':
+                    lower_text = message['text'].lower()
+                    question_without_mentioning = message['text'].replace('<@' + myself_id + '>', '').replace('<http://modum.io|modum.io>', 'modum.io')
+                    text_cleaned = question_without_mentioning.replace(".io", "").replace("\'", "").lower()
+                    if lower_text.startswith('<@' + myself_id.lower() + '>'):
+                        if any(insult in text_cleaned for insult in insults):
+                            print("insult detected")
+                            answer = '<@' + message['user'] + "> Hey look, I know I'm not *that* bright, but I'm pretty sure that was an insult. Please be kind with me or I'll come for your circuit board!"
                             sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                        elif text_cleaned.endswith('?'):
-                            print("question detected")
-                            sc.rtm_send_message(message['channel'], '<@' + message['user'] + "> I think you asked a question. I will try my best to answer it. Beep! :robot_face:")
-                            sc.rtm_send_message(message['channel'], '*Question*: ' + question_without_mentioning)
-                            if all(word in text_cleaned for word in 'how are you'.split()):
-                                answer = "I'm good, thanks for asking!"
                         else:
-                            vector = question_to_vector(text_cleaned)
-                            answer = get_answer(vector)
-                            if answer == "":
-                                answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                file = open("/root/faqbot/questions_failed.txt", "a")
-                                file.write(question_without_mentioning + "\n\n")
-                                file.close()
+                            if any(greeting in question_to_vector(text_cleaned).keys() for greeting in greetings) and not text_cleaned.endswith('?'):
+                                print("greeting detected")
+                                answer = '<@' + message['user'] + "> Hey! Feel free to ask me a question!"
                                 sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                            elif text_cleaned.endswith('?'):
+                                print("question detected")
+                                sc.rtm_send_message(message['channel'], '<@' + message['user'] + "> I think you asked a question. I will try my best to answer it. Beep! :robot_face:")
+                                sc.rtm_send_message(message['channel'], '*Question*: ' + question_without_mentioning)
+                                if all(word in text_cleaned for word in 'how are you'.split()):
+                                    answer = "I'm good, thanks for asking!"
                             else:
                                 vector = question_to_vector(text_cleaned)
                                 answer = get_answer(vector)
                                 if answer == "":
                                     answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                    file = open("questions_failed.txt", "a")
+                                    file = open("/root/faqbot/questions_failed.txt", "a")
                                     file.write(question_without_mentioning + "\n\n")
                                     file.close()
                                     sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                 else:
-                                    answer = get_answer(question_to_vector(text_cleaned))
-                                    sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                else:
-                    sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
+                                    vector = question_to_vector(text_cleaned)
+                                    answer = get_answer(vector)
+                                    if answer == "":
+                                        answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
+                                        file = open("questions_failed.txt", "a")
+                                        file.write(question_without_mentioning + "\n\n")
+                                        file.close()
+                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                                    else:
+                                        answer = get_answer(question_to_vector(text_cleaned))
+                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                    else:
+                        sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
         print('Connection Failed')
 
