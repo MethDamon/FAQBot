@@ -27,7 +27,7 @@ myself_id = ''
 
 
 def read_in_faq():
-    wb = xlrd.open_workbook("./faq.xlsx")
+    wb = xlrd.open_workbook("/root/faqbot/faq.xlsx")
     sh = wb.sheet_by_index(0)
     d = {}
     i = 1
@@ -36,7 +36,6 @@ def read_in_faq():
         answer = sh.cell(i, 1).value
         d[question] = answer
         i += 1
-    print(d)
     return d
 
 questions_and_answers = read_in_faq()
@@ -127,7 +126,7 @@ if sc.rtm_connect():
                                 answer = get_answer(vector)
                                 if answer == "":
                                     answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                    file = open("questions_failed.txt", "a")
+                                    file = open("/root/faqbot/questions_failed.txt", "a")
                                     file.write(question_without_mentioning + "\n\n")
                                     file.close()
                                     sc.rtm_send_message(message['channel'], "*Answer* " + answer)
