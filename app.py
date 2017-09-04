@@ -11,6 +11,9 @@ from slackclient import SlackClient
 from nltk.corpus import stopwords
 from collections import Counter
 from pprint import pprint
+import logging
+
+logging.basicConfig(filename='log.log', level=logging.INFO)
 
 bot_token = sys.argv[1]
 
@@ -92,7 +95,7 @@ prepare()
 
 def connect():
     if sc.rtm_connect():
-        print("Bot is connected")
+        logging.info("Bot is connected")
         users = sc.api_call("users.list")
         if 'members' in users.keys():
             for user in users['members']:
@@ -101,7 +104,7 @@ def connect():
         while True:
             messages = sc.rtm_read()
             for message in messages:
-                pprint(message)
+                logging.info(pprint(message))
                 if 'type' in message.keys() and message['type'] == 'error' or 'type' in message.keys() and message['type'] == 'goodbye':
                     connect()
                 elif 'type' in message.keys() and message['type'] == 'message':
@@ -110,16 +113,16 @@ def connect():
                     text_cleaned = question_without_mentioning.replace(".io", "").replace("\'", "").lower()
                     if lower_text.startswith('<@' + myself_id.lower() + '>'):
                         if any(insult in text_cleaned for insult in insults):
-                            print("insult detected")
+                            logging.info("insult detected")
                             answer = '<@' + message['user'] + "> Hey look, I know I'm not *that* bright, but I'm pretty sure that was an insult. Please be kind with me or I'll come for your circuit board!"
                             sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                         else:
                             if any(greeting in question_to_vector(text_cleaned).keys() for greeting in greetings) and not text_cleaned.endswith('?'):
-                                print("greeting detected")
+                                logging.info("greeting detected")
                                 answer = '<@' + message['user'] + "> Hey! Feel free to ask me a question!"
                                 sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                             elif text_cleaned.endswith('?'):
-                                print("question detected")
+                                logging.info("question detected: " + question_without_mentioning)
                                 sc.rtm_send_message(message['channel'], '<@' + message['user'] + "> I think you asked a question. I will try my best to answer it. Beep! :robot_face:")
                                 sc.rtm_send_message(message['channel'], '*Question*: ' + question_without_mentioning)
                                 if all(word in text_cleaned for word in 'how are you'.split()):
@@ -150,6 +153,6 @@ def connect():
                             else:
                                 sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
-        print('Connection Failed')
+        logging.info('Connection Failed')
 
 connect()
