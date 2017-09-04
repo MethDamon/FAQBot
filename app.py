@@ -6,6 +6,7 @@ import os
 import re
 import os.path
 import requests
+import logging
 
 import xlrd as xlrd
 
@@ -151,3 +152,5 @@ def connect():
                         sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
         print('Connection Failed')
+
+connect()
