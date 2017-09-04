@@ -107,7 +107,7 @@ def connect():
                 logging.info(message)
                 if 'type' in message.keys() and message['type'] == 'error' or 'type' in message.keys() and message['type'] == 'goodbye':
                     connect()
-                elif 'type' in message.keys() and message['type'] == 'message':
+                elif 'type' in message.keys() and message['type'] == 'message' and 'text' in message.keys():
                     lower_text = message['text'].lower()
                     question_without_mentioning = message['text'].replace('<@' + myself_id + '>', '').replace('<http://modum.io|modum.io>', 'modum.io')
                     text_cleaned = question_without_mentioning.replace(".io", "").replace("\'", "").lower()
