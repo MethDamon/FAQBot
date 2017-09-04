@@ -94,14 +94,13 @@ def connect():
     if sc.rtm_connect():
         print("Bot is connected")
         users = sc.api_call("users.list")
-        for user in users['members']:
-            if user['name'] == 'mrjames':
-                myself_id = user['id']
+        if 'members' is in users.key() and any(user['name'] == 'mrjames' for user in users['members']):
+            myself_id = user['id']
         while True:
             messages = sc.rtm_read()
             for message in messages:
                 pprint(message)
-                if 'type' in message.keys() and message['type'] == 'error' or message['type'] == 'goodbye' or message['type'] == 'reconnect_url':
+                if 'type' in message.keys() and message['type'] == 'error' or message['type'] == 'goodbye':
                     connect()
                 elif 'type' in message.keys() and message['type'] == 'message':
                     lower_text = message['text'].lower()
