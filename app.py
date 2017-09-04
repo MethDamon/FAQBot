@@ -104,7 +104,7 @@ def connect():
             messages = sc.rtm_read()
             for message in messages:
                 pprint(message)
-            if 'type' in message.keys and message['type'] == 'error' and message['error']['code']:
+            if 'type' in message.keys() and message['type'] == 'error' and message['error']['code']:
                 connect()
             elif 'type' in message.keys() and message['type'] == 'message':
                 lower_text = message['text'].lower()
