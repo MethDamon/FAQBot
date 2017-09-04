@@ -95,7 +95,7 @@ def connect():
         print("Bot is connected")
         users = sc.api_call("users.list")
         if 'members' in users.keys():
-            for user in users['users']:
+            for user in users['members']:
                 if user['name'] == 'mrjames':
                     myself_id = user['id']
         while True:
