@@ -28,7 +28,7 @@ myself_id = ''
 def read_in_faq():
     dls = os.environ['FAQLINK']
     resp = requests.get(dls)
-    path = "/root/FAQBot/faq.xls"
+    path = "faq.xlsx"
     if os.path.exists(path):
         os.remove(path)
     output = open('faq.xlsx', 'wb')
