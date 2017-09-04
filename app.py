@@ -120,14 +120,12 @@ def connect():
                                 print("greeting detected")
                                 answer = '<@' + message['user'] + "> Hey! Feel free to ask me a question!"
                                 sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-<<<<<<< HEAD
                             elif text_cleaned.endswith('?'):
                                 print("question detected")
                                 sc.rtm_send_message(message['channel'], '<@' + message['user'] + "> I think you asked a question. I will try my best to answer it. Beep! :robot_face:")
                                 sc.rtm_send_message(message['channel'], '*Question*: ' + question_without_mentioning)
                                 if all(word in text_cleaned for word in 'how are you'.split()):
                                     answer = "I'm good, thanks for asking!"
-=======
                             else:
                                 vector = question_to_vector(text_cleaned)
                                 answer = get_answer(vector)
@@ -136,7 +134,6 @@ def connect():
                                     file = open("/root/faqbot/questions_failed.txt", "a")
                                     file.write(question_without_mentioning + "\n\n")
                                     file.close()
->>>>>>> 13b6176d5431d2d01408b242a63c8da2b58a533e
                                     sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                 else:
                                     vector = question_to_vector(text_cleaned)
@@ -150,8 +147,7 @@ def connect():
                                     else:
                                         answer = get_answer(question_to_vector(text_cleaned))
                                         sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                            else:
-                                sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
-
+                    else:
+                        sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
         print('Connection Failed')
