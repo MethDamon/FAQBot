@@ -25,18 +25,10 @@ users = []
 
 myself_id = ''
 
+
 def read_in_faq():
-    dls = os.environ['FAQLINK']
-    resp = requests.get(dls)
-    path = "faq.xlsx"
-    if os.path.exists(path):
-        os.remove(path)
-    output = open('faq.xlsx', 'wb')
-    output.write(resp.content)
-    output.close()
     wb = xlrd.open_workbook("faq.xlsx")
     sh = wb.sheet_by_index(0)
-    i = 0
     d = {}
     i = 1
     while i < sh.nrows:
@@ -44,6 +36,7 @@ def read_in_faq():
         answer = sh.cell(i, 1).value
         d[question] = answer
         i += 1
+    print(d)
     return d
 
 questions_and_answers = read_in_faq()
