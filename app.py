@@ -104,7 +104,7 @@ def connect():
         while True:
             messages = sc.rtm_read()
             for message in messages:
-                logging.info(pprint(message))
+                logging.info(message)
                 if 'type' in message.keys() and message['type'] == 'error' or 'type' in message.keys() and message['type'] == 'goodbye':
                     connect()
                 elif 'type' in message.keys() and message['type'] == 'message':
