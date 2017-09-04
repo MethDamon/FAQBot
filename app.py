@@ -126,30 +126,31 @@ def connect():
                                 sc.rtm_send_message(message['channel'], '*Question*: ' + question_without_mentioning)
                                 if all(word in text_cleaned for word in 'how are you'.split()):
                                     answer = "I'm good, thanks for asking!"
-                            else:
-                                vector = question_to_vector(text_cleaned)
-                                answer = get_answer(vector)
-                                if answer == "":
-                                    answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                    sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                                    file = open("/root/faqbot/questions_failed.txt", "a")
-                                    file.write(question_without_mentioning + "\n\n")
-                                    file.close()
                                     sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                 else:
                                     vector = question_to_vector(text_cleaned)
                                     answer = get_answer(vector)
                                     if answer == "":
                                         answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                        file = open("questions_failed.txt", "a")
+                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                                        file = open("/root/faqbot/questions_failed.txt", "a")
                                         file.write(question_without_mentioning + "\n\n")
                                         file.close()
                                         sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                     else:
-                                        answer = get_answer(question_to_vector(text_cleaned))
-                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                    else:
-                        sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
+                                        vector = question_to_vector(text_cleaned)
+                                        answer = get_answer(vector)
+                                        if answer == "":
+                                            answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
+                                            file = open("questions_failed.txt", "a")
+                                            file.write(question_without_mentioning + "\n\n")
+                                            file.close()
+                                            sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                                        else:
+                                            answer = get_answer(question_to_vector(text_cleaned))
+                                            sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                            else:
+                                sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
         print('Connection Failed')
 
