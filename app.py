@@ -94,7 +94,7 @@ def connect():
     if sc.rtm_connect():
         print("Bot is connected")
         users = sc.api_call("users.list")
-        if 'members' is in users.key() and any(user['name'] == 'mrjames' for user in users['members']):
+        if 'members' in users.key() and any(user['name'] == 'mrjames' for user in users['members']):
             myself_id = user['id']
         while True:
             messages = sc.rtm_read()
