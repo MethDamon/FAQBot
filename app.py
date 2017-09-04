@@ -44,7 +44,6 @@ def read_in_faq():
         answer = sh.cell(i, 1).value
         d[question] = answer
         i += 1
-    print(d)
     return d
 
 questions_and_answers = read_in_faq()
