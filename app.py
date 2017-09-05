@@ -134,7 +134,6 @@ def connect():
                                     if answer == "":
                                         logging.info("answer is empty")
                                         answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                         file = open("/root/faqbot/questions_failed.txt", "a")
                                         file.write(question_without_mentioning + "\n\n")
                                         file.close()
