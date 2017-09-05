@@ -132,6 +132,7 @@ def connect():
                                     vector = question_to_vector(text_cleaned)
                                     answer = get_answer(vector)
                                     if answer == "":
+                                        logging.info("answer is empty")
                                         answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
                                         sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                         file = open("/root/faqbot/questions_failed.txt", "a")
@@ -139,17 +140,7 @@ def connect():
                                         file.close()
                                         sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                                     else:
-                                        vector = question_to_vector(text_cleaned)
-                                        answer = get_answer(vector)
-                                        if answer == "":
-                                            answer = "Sorry, I'm not *that* clever. Please ask one of the team members"
-                                            file = open("questions_failed.txt", "a")
-                                            file.write(question_without_mentioning + "\n\n")
-                                            file.close()
-                                            sc.rtm_send_message(message['channel'], "*Answer* " + answer)
-                                        else:
-                                            answer = get_answer(question_to_vector(text_cleaned))
-                                            sc.rtm_send_message(message['channel'], "*Answer* " + answer)
+                                        sc.rtm_send_message(message['channel'], "*Answer* " + answer)
                             else:
                                 sc.rtm_send_message(message['channel'], "Sorry, but I think that wasn't a question. Make sure to add a question mark at the end!")
     else:
